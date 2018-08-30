@@ -9,7 +9,8 @@ do
     idx=idx+1
 
     dev_name=${dev_name:5}
-
+    udevadm=$(udevadm info -a -n ${dev_name})
+    echo ${udevadm}
     devpath=$(udevadm info -a -n ${dev_name} | grep ATTRS{devpath}== | cut -d "\"" -f2)
     devpath=$(echo ${devpath} | cut -d " " -f1)
 
