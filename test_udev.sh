@@ -9,17 +9,16 @@ do
     idx=idx+1
 
     dev_name=${dev_name:5}
-
     devpath=$(udevadm info -a -n ${dev_name} | grep ATTRS{devpath}== | cut -d "\"" -f2)
     devpath=$(echo ${devpath} | cut -d " " -f1)
-
+    
     idVendor=$(udevadm info -a -n  ${dev_name} | grep ATTRS{idVendor}== | cut -d "\"" -f2)
     idVendor=$(echo ${idVendor} | cut -d " " -f1)
 
     idProduct=$(udevadm info -a -n  ${dev_name} | grep ATTRS{idProduct}== | cut -d "\"" -f2)
     idProduct=$(echo ${idProduct} | cut -d " " -f1)
 
-    product_name=$(lsusb | grep ${idVendor}:${idProduct})
+    product_name=$(lsusb | grep ${idVendor}:${idProduct} | head -n 1)
     product_name=${product_name:33}
     echo " "
     echo "************     "${product_name}"     ***************"
