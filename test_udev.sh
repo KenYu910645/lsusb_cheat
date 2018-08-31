@@ -18,7 +18,7 @@ do
 
     product_name=$(lsusb | grep ${idVendor}:${idProduct} | head -n 1)
     product_name=${product_name:33}
-    if [ ! -n "$product_name" ]; then
+    if [[ "${dev_name:0:5}" ==  "video" ]]; then
         product_name=$(cat udev_buff.txt | grep ATTRS{product}== | cut -d "\"" -f2 | head -n 1)
     fi
     symlink=$(ls /dev/ -al | grep "\->" | grep ${dev_name} | awk '{print $9}')
