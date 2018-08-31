@@ -1,12 +1,13 @@
 #! /bin/bash
-get_dev=$(ls /dev/ttyA*; ls /dev/ttyU*; ls /dev/video*)
-
+get_dev=$(ls /dev/ttyA*; ls /dev/ttyU*; ls /dev/video*)" end"
 echo "Finding USB device, this might take a while"
-declare -i idx=1 
+declare -i idx=1
 until [ -z "$(echo ${get_dev} | cut -d " " -f${idx})" ]
 do
     dev_name=$(echo ${get_dev} | cut -d " " -f${idx})
-    idx=idx+1
+    if [ "$dev_name" == "end" ]; then
+        break
+    fi
     dev_name=${dev_name:5}
     
     udevadm info -a -n ${dev_name} > udev_buff.txt
@@ -29,5 +30,5 @@ do
     echo    "ATTRS{idVendor}  : "${idVendor}
     echo    "ATTRS{idProduct} : "${idProduct}
     echo -e "SYMLINK          : \033[1;31m${symlink}\033[0m"
-
+    idx=idx+1
 done
